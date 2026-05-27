@@ -1,0 +1,16 @@
+{
+  "name": "md-viewer",
+  "version": "1.0.0",
+  "description": "Lightweight web viewer for markdown and text files",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "github-markdown-css": "^5.8.1",
+    "highlight.js": "^11.11.1",
+    "marked": "^15.0.7"
+  }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= fileName ? `${fileName} — MD Viewer` : 'MD Viewer' %></title>
+  <link rel="stylesheet" href="/vendor/github-markdown-css/github-markdown-light.css">
+  <link rel="stylesheet" href="/vendor/highlight.js/github.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">MD Viewer</h1>
+      <button class="sidebar-close" id="sidebar-close" aria-label="Close sidebar">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="5" y1="5" x2="15" y2="15"/><line x1="15" y1="5" x2="5" y2="15"/>
+        </svg>
+      </button>
+    </div>
+    <nav class="file-tree" aria-label="File navigation">
+      <% function renderTree(node, depth) { %>
+        <% if (node.type === 'directory') { %>
+          <details class="tree-folder"<%= depth === 0 ? ' open' : '' %>>
+            <summary class="tree-folder-label" style="padding-left: <%= 12 + depth * 16 %>px">
+              <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M1.5 3.5A1 1 0 0 1 2.5 2.5h3.586a1 1 0 0 1 .707.293L8 4h5.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-9z"/>
+              </svg>
+              <span class="folder-name"><%= node.name %></span>
+            </summary>
+            <% node.children.forEach(child => { %>
+              <% renderTree(child, depth + 1) %>
+            <% }) %>
+          </details>
+        <% } else { %>
+          <a href="/view/<%= node.path %>"
+             class="tree-file<%= filePath === node.path ? ' active' : '' %>"
+             style="padding-left: <%= 12 + depth * 16 %>px">
+            <svg class="file-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M4.5 1.5h4.586a1 1 0 0 1 .707.293l2.414 2.414a1 1 0 0 1 .293.707V13.5a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1z"/>
+              <path d="M9 1.5v3.5h3.5"/>
+            </svg>
+            <span class="file-name"><%= node.name %></span>
+          </a>
+        <% } %>
+      <% } %>
+      <% tree.children.forEach(child => renderTree(child, 0)) %>
+    </nav>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+  <main class="content" id="content">
+    <% if (filePath) { %>
+      <div class="content-header">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Open file navigation">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+          </svg>
+        </button>
+        <nav class="breadcrumb" aria-label="File path">
+          <ol>
+            <li><a href="/">root</a></li>
+            <% const parts = filePath.split('/'); %>
+            <% parts.forEach((part, i) => { %>
+              <% if (i < parts.length - 1) { %>
+                <li><span class="breadcrumb-separator" aria-hidden="true">/</span><%= part %></li>
+              <% } else { %>
+                <li aria-current="page"><span class="breadcrumb-separator" aria-hidden="true">/</span><%= part %></li>
+              <% } %>
+            <% }) %>
+          </ol>
+        </nav>
+      </div>
+      <article class="markdown-body">
+        <%- content %>
+      </article>
+    <% } else { %>
+      <div class="welcome">
+        <button class="sidebar-toggle sidebar-toggle--welcome" id="sidebar-toggle" aria-label="Open file navigation">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="3" y1="5" x2="17" y2="5"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="15" x2="17" y2="15"/>
+          </svg>
+        </button>
+        <h2>No files found</h2>
+        <p>Place markdown or text files in the configured root directory and refresh.</p>
+        <p class="welcome-hint">Supported formats: .md, .txt, .json, .yaml, .yml</p>
+      </div>
+    <% } %>
+  </main>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
