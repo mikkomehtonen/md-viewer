@@ -221,7 +221,7 @@ body {
 }
 
 .tree-file.active {
-  color: var(--accent);
+  color: var(--accent-hover);
   background: var(--accent-subtle);
   font-weight: 500;
 }
@@ -306,9 +306,11 @@ body {
   align-items: center;
   list-style: none;
   font-size: 0.8125rem;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   gap: 0;
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .breadcrumb li {
@@ -466,6 +468,7 @@ body {
 /* --- Welcome state ------------------------------------------------------- */
 
 .welcome {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -502,10 +505,15 @@ body {
 
 /* --- Responsive ---------------------------------------------------------- */
 
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar {
+    transition: transform var(--duration-normal) var(--ease-out);
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
-    transition: transform var(--duration-normal) var(--ease-out);
   }
 
   .sidebar.open {
@@ -526,6 +534,11 @@ body {
 
   .content-header {
     padding-left: 16px;
+  }
+
+  .tree-folder-label,
+  .tree-file {
+    min-height: 44px;
   }
 
   .markdown-body {
@@ -565,4 +578,11 @@ body {
 .sidebar::-webkit-scrollbar-thumb:hover,
 .file-tree::-webkit-scrollbar-thumb:hover {
   background: var(--border-strong);
+}
+
+/* Firefox scrollbar */
+.sidebar,
+.file-tree {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
