@@ -25,6 +25,10 @@
     });
 
     if (isMobile()) {
+      // Mark as modal dialog for screen readers (mobile only)
+      sidebar.setAttribute('role', 'dialog');
+      sidebar.setAttribute('aria-modal', 'true');
+
       // Lock body scroll
       document.body.style.overflow = 'hidden';
 
@@ -71,25 +75,31 @@
       triggerElement = null;
     }
 
-    // Restore body scroll
-    document.body.style.overflow = '';
+    if (isMobile()) {
+      // Remove modal dialog attributes
+      sidebar.removeAttribute('role');
+      sidebar.removeAttribute('aria-modal');
 
-    // Remove inert from main content
-    var main = document.querySelector('main');
-    if (main) {
-      main.removeAttribute('inert');
+      // Restore body scroll
+      document.body.style.overflow = '';
+
+      // Remove inert from main content
+      var main = document.querySelector('main');
+      if (main) {
+        main.removeAttribute('inert');
+      }
+
+      // Remove focus trap
+      if (focusTrapHandler) {
+        document.removeEventListener('keydown', focusTrapHandler);
+        focusTrapHandler = null;
+      }
     }
 
     // Update aria-expanded on all toggle buttons
     toggleButtons.forEach(function (btn) {
       btn.setAttribute('aria-expanded', 'false');
     });
-
-    // Remove focus trap
-    if (focusTrapHandler) {
-      document.removeEventListener('keydown', focusTrapHandler);
-      focusTrapHandler = null;
-    }
   }
 
   toggleButtons.forEach(function (btn) {
