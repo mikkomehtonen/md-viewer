@@ -87,3 +87,21 @@ md-viewer/
 - **Markdown**: `marked` + `highlight.js`
 - **Styling**: `github-markdown-css` + custom CSS
 - **Client JS**: Vanilla JS (sidebar toggle only)
+
+# 🐳 Run with Docker
+
+Wattscheduler can be built and run as a Docker container.
+
+## Build the image
+
+    docker build -t md-viewer .
+
+------------------------------------------------------------------------
+
+## Run the container
+
+    ./run.sh
+
+The application will be available at:
+
+-   Web UI: http://localhost:3100/
