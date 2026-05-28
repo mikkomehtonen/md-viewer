@@ -38,6 +38,7 @@ app.get('/', (req, res) => {
     filePath: null,
     fileName: null,
     rootDir: config.rootDir,
+    rootDirName: path.basename(config.rootDir) || config.rootDir,
   });
 });
 
@@ -85,6 +86,7 @@ app.get('/view/*', (req, res) => {
     filePath: relativePath,
     fileName: path.basename(relativePath),
     rootDir: config.rootDir,
+    rootDirName: path.basename(config.rootDir) || config.rootDir,
   });
 });
 

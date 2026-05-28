@@ -62,7 +62,7 @@
         </button>
         <nav class="breadcrumb" aria-label="File path">
           <ol>
-            <li><a href="/">root</a></li>
+            <li><a href="/" title="<%= rootDir %>"><%= rootDirName %></a></li>
             <% const parts = filePath.split('/'); %>
             <% parts.forEach((part, i) => { %>
               <% if (i < parts.length - 1) { %>
