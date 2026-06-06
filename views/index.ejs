@@ -23,7 +23,7 @@
     <nav class="file-tree" aria-label="File navigation">
       <% function renderTree(node, depth) { %>
         <% if (node.type === 'directory') { %>
-          <details class="tree-folder"<%= depth === 0 ? ' open' : '' %>>
+          <details class="tree-folder">
             <summary class="tree-folder-label" style="padding-left: <%= 12 + depth * 16 %>px">
               <svg class="folder-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M1.5 3.5A1 1 0 0 1 2.5 2.5h3.586a1 1 0 0 1 .707.293L8 4h5.5a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-9z"/>
